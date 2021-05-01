@@ -33,11 +33,14 @@ bool ToolsPassFox::fake_gpgme( int action, std::string filepass ){
     case 0:
       com = "gpg --yes --batch --passphrase=" + filepass + " -c " + tmp + ".tar.gz";
       ccom = &com[0];
-      return system( ccom );
+      system( ccom );
+      return true;
       break;
     case 1:
-      // descriptografar
-      return false;
+      com = "gpg --quiet --yes --batch --passphrase=" + filepass + " " + tmp + "/pass-firefox.gpg";
+      ccom = &com[0];
+      system( ccom );
+      return fs::exists( tmp + "/pass-firefox" );
       break;
   }
 
@@ -86,4 +89,31 @@ bool ToolsPassFox::export_file( std::string pass ){
   fake_gpgme( 0, filepass );
   save_file();
   return fs::exists( passfirefox );
+}
+
+bool ToolsPassFox::import_file( std::string filename, std::string pass ){
+  if( ! fs::exists( home + "/.mozilla/firefox" ) ){
+    return false;
+  }
+  
+  make_dir_files();
+  fs::copy_file( filename, tmp + "/pass-firefox.gpg", fs::copy_options::overwrite_existing );
+
+  if( ! fake_gpgme( 1, pass ) ){
+    fs::remove_all( tmp );
+    return false;
+  }
+
+  std::string com = "tar -zxf " + tmp + "/pass-firefox " + " -C " + tmp + " 2>/dev/null";
+  char * ccom = &com[0];
+  system( ccom );
+
+  std::string to_path = get_filename( file );
+  to_path = to_path.substr( 0, to_path.length() - 7 );
+  fs::copy_file( tmp + tmp + "/key4.db", to_path + "key4.db", fs::copy_options::overwrite_existing );
+  fs::copy_file( tmp + tmp + "/logins.json", to_path + "logins.json", fs::copy_options::overwrite_existing );
+  fs::remove_all( tmp );
+
+  return true;
+
 }

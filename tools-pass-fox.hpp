@@ -18,6 +18,7 @@ class ToolsPassFox {
     bool fake_gpgme( int, std::string );
     void save_file();
     bool export_file( std::string );
+    bool import_file( std::string, std::string );
 };
 
 #endif
