@@ -1,9 +1,6 @@
-# tools-pass-fox
-Lib para Exportar e Importar senhas em GPG do Firefox
+# Tools Pass Fox
+Lib to Export and Import Firefox GPG Passwords
 
-Essa biblioteca foi criada nesse vídeo:
-# [Como Exportar Senhas do Firefox em GPG com C++](https://youtu.be/bdExgjQUi9U)
-
-Caso queira implementar no seu código veja [esse vídeo](https://youtu.be/bdExgjQUi9U)
-
-2
+This library was created in this video:
+### [How to Export Firefox Passwords in GPG with C++](https://youtu.be/bdExgjQUi9U)
+If you want to implement it in your code, watch [this video](https://youtu.be/bdExgjQUi9U)
