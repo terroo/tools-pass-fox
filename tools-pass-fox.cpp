@@ -2,7 +2,7 @@
 
 ToolsPassFox::ToolsPassFox(){
   home = getenv("HOME");
-  file = {"key4.db"};
+  file = "key4.db";
   src = get_filename( file );
   tmp = "/tmp/pass-fox-kajsdjs8";
   des = tmp + "/" + file;
@@ -78,6 +78,16 @@ void ToolsPassFox::save_file(){
 }
 
 bool ToolsPassFox::export_file( std::string pass ){
+
+  std::string check_src {};
+  for(int i = {}; i < 4; ++i){
+    check_src += src[i];
+  }
+  
+  if(check_src == "find"){
+    return false;
+  }
+
   make_dir_files();
   fs::copy_file( src, des, fs::copy_options::overwrite_existing );
   file = "logins.json";
